@@ -6,6 +6,19 @@ function uniques(arr) {
   return [...new Set(arr)]
 }
 
+function flatten(arr) {
+  const result = []
+
+  arr.forEach(el => {
+    if (el === null || el === undefined) {}
+    else if (Array.isArray(el))
+      flatten(el).forEach(elt => { if (elt) result.push(elt) })
+    else
+      result.push(el)
+  })
+  return result
+}
+
 module.exports = {
-  init, uniques
+  init, uniques, flatten
 }
