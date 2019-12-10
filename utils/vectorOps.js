@@ -4,7 +4,7 @@
     x0: number
     y0: number
     dx: number
-    dx: number
+    dy: number
     size: number
   }
 */
