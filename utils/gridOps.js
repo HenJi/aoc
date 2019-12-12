@@ -12,7 +12,7 @@ function draw(coords, colors) {
 
   let panel = ArrayOps.init(maxY - minY).map(_ => ArrayOps.init(maxX - minX).map(_ => ' '))
   coords.forEach(({x, y, data}) => {
-    panel[y-minY][x-minX] = colors[data]
+    panel[y-minY][x-minX] = colors ? colors[data] : data
   })
   return panel.map(l => l.join('')).join('\n')
 }
