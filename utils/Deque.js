@@ -51,6 +51,10 @@ Deque.prototype.pop = function() {
   }
 }
 
+function pad(n) {
+  return ('   '+n).slice(-3)
+}
+
 Deque.prototype.print = function() {
   const ref = this.head
   let res = pad(this.head.value)

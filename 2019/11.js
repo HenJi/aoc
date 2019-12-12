@@ -49,7 +49,7 @@ function day11(initial, src) {
     params.outputs = []
   }
 
-  console.log(GridOps.draw(grid, { 0: ' ', 1: 'o' }))
+  console.log(GridOps.draw(GridOps.toList(grid), { 0: ' ', 1: 'o' }))
   console.dir(painted.size)
 }
 
