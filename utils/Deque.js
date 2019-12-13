@@ -1,5 +1,4 @@
 function Deque() {
-  this.Node = null
   this.count = 0
   this.head = null
 }
