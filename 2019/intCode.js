@@ -13,8 +13,15 @@ const opCodeNames = {
   9: 'Set base'
 }
 
+let loops = 0
 function intCode(params) {
   let { id, program, base, cursor, inputs, outputs } = params
+
+  if (loops > 2000) {
+    loops = 0
+    return params
+  }
+  loops++
 
   const fullOp = ("0000"+program[cursor]).slice(-5)
   const modeA3 = +(fullOp[0])
@@ -48,10 +55,6 @@ function intCode(params) {
     }
   }
 
-  if (LOGS && cursor === 0 && false) {
-    console.dir(id+' Start instance')
-    console.dir(program.join(",")+ '::' + inputs.join(','))
-  }
   if (program[cursor] === undefined) {
     console.dir(id+' No more instruction')
     return { ...params, running: false }
@@ -78,7 +81,8 @@ function intCode(params) {
       const input = inputs[0]
       if (input === undefined) {
         LOGS && console.dir(id+' Waiting for input')
-        return params
+        loops = 0
+        return { ...params, waitingInput: true }
       } else {
         LOGS && console.dir(id+' Input: '+input)
         program[arg1] = input
@@ -107,4 +111,12 @@ function intCode(params) {
   }
 }
 
-module.exports = intCode
+function outerIntCode(params) {
+  let local = {...params}
+  while (local.running && !local.waitingInput) {
+    local = intCode(local)
+  }
+  return local
+}
+
+module.exports = outerIntCode
