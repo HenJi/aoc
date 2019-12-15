@@ -37,6 +37,33 @@ function toXYMap(coords) {
   return res
 }
 
+function computeShortestPath(a, b, isAvailable) {
+  const pp = p => `${p.x},${p.y}`
+  const fp = p => {
+    const [x, y] = p.split(',')
+    return { x:+x, y:+y }
+  }
+  const deltas = [[1,0], [0,-1], [0,1], [-1,0]]
+  const target = pp(b)
+
+  let distances = {
+    [pp(a)]: 0
+  }
+  let tips = [a]
+  let depth = 0
+  while (distances[target] === undefined && tips.length > 0) {
+    //console.dir(tips)
+    depth++
+    let nexts = ArrayOps.uniques(ArrayOps.flatten(
+      tips.map(({ x, y }) => deltas.map(([dx, dy]) => pp({ x:x+dx, y:y+dy })) )
+    )).filter(p => distances[p] === undefined)
+      .map(fp).filter(isAvailable)
+    nexts.forEach(p => distances[pp(p)] = depth)
+    tips = nexts
+  }
+  return distances
+}
+
 // Convert a [{ x, y, data }] list into a {y: {x: data}} grid
 function toYXMap(coords) {
   let res = {}
@@ -54,4 +81,5 @@ module.exports = {
   toList,
   toXYMap,
   toYXMap,
+  computeShortestPath,
 }
