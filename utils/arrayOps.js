@@ -19,6 +19,15 @@ function flatten(arr) {
   return result
 }
 
+function chunk(lst, size) {
+  return init(Math.ceil(lst.length/n))
+    .map((x,i) => this.slice(i*n,i*n+n))
+}
+
+function sum(lst) {
+  return lst.reduce((acc, n) => acc+n, 0)
+}
+
 module.exports = {
-  init, uniques, flatten
+  init, uniques, flatten, chunk, sum,
 }
