@@ -111,13 +111,17 @@ function intCode(params) {
   }
 }
 
-function outerIntCode(params) {
+function outerIntCode(params, noLoop) {
   let local = {
     ...params,
     waitingInput: params.waitingInput && params.inputs.lenth === 0
   }
-  while (local.running && !local.waitingInput) {
+  if (noLoop) {
     local = intCode(local)
+  } else {
+    while (local.running && !local.waitingInput) {
+      local = intCode(local)
+    }
   }
   return local
 }

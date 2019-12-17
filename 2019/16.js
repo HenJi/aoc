@@ -32,48 +32,6 @@ function day16a(src, phases, exp){
   exp && console.dir(exp)
 }
 
-function day16bTrash(src, phases, nbRepeat, exp){
-  let offset = +src.slice(0,7)
-
-  function repeat(src, times) {
-    return ArrayOps.init(times).map(_ => src).join('')
-  }
-  function repeatAlt(src, times) {
-    const zeroes = ArrayOps.init(src.length).map(_ => 0).join('')
-    return ArrayOps.init(times-1).map(_ => zeroes).join('')+src
-  }
-  let signal = repeat(src, nbRepeat).split('').map(Number)
-
-  const basePattern = { 0: 0, 1: 1, 2: 0, 3: -1 }
-  function mult(phase, idx) {
-    const base = Math.floor((idx+1) / (phase+1)) % 4
-    return basePattern[base]
-  }
-
-  for (let phase = 0; phase < phases; phase++) {
-    let next = []
-    console.dir(phase)
-    //console.dir(signal.join(''))
-
-    signal.forEach( (_, nb) => {
-      if (nb % 100 === 0) {
-        //console.dir(nb)
-      }
-      let calc = 0
-      signal.slice(nb).forEach( (d, idx) => {
-        calc += d * mult(nb, idx+nb)
-      })
-      const added = Math.abs(calc % 10)
-      next.push(added)
-    })
-    signal = next
-  }
-
-  console.dir(signal.join(''))
-  console.dir(signal.join('').slice(offset,offset+8))
-  exp && console.dir(exp)
-}
-
 function day16b(src, phases, nbRepeat, exp){
   const offset = +src.slice(0,7)
 
