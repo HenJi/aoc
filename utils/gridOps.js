@@ -37,13 +37,14 @@ function toXYMap(coords) {
   return res
 }
 
+const deltas = [[1,0], [0,-1], [0,1], [-1,0]]
+const pp = p => `${p.x},${p.y}`
+const fp = p => {
+  const [x, y] = p.split(',')
+  return { x:+x, y:+y }
+}
+
 function computeShortestPath(a, b, isAvailable) {
-  const pp = p => `${p.x},${p.y}`
-  const fp = p => {
-    const [x, y] = p.split(',')
-    return { x:+x, y:+y }
-  }
-  const deltas = [[1,0], [0,-1], [0,1], [-1,0]]
   const target = pp(b)
 
   let distances = {
@@ -65,12 +66,6 @@ function computeShortestPath(a, b, isAvailable) {
 }
 
 function computeShortestPaths(a, bs, isAvailable) {
-  const pp = p => `${p.x},${p.y}`
-  const fp = p => {
-    const [x, y] = p.split(',')
-    return { x:+x, y:+y }
-  }
-  const deltas = [[1,0], [0,-1], [0,1], [-1,0]]
   const targets = bs.map(pp)
 
   let distances = {
@@ -88,6 +83,28 @@ function computeShortestPaths(a, bs, isAvailable) {
     nexts.forEach(p => distances[pp(p)] = depth)
     tips = nexts
   }
+  return distances
+}
+
+function computeReachable(a, isAvailable) {
+  let distances = { [a.x]: { [a.y]: 0 } }
+  let tips = [a]
+  let depth = 0
+
+  while (tips.length > 0) {
+    depth++
+    let nexts = ArrayOps.uniques(ArrayOps.flatten(
+      tips.map(({ x, y }) => deltas.map(([dx, dy]) => pp({ x:x+dx, y:y+dy })) )
+    )).map(fp)
+      .filter(p => distances[p.x] === undefined || distances[p.x][p.y] === undefined)
+      .filter(isAvailable)
+    nexts.forEach(p => {
+      if (distances[p.x] === undefined) distances[p.x] = {}
+      distances[p.x][p.y] = depth
+    })
+    tips = nexts
+  }
+
   return distances
 }
 
@@ -110,4 +127,5 @@ module.exports = {
   toYXMap,
   computeShortestPath,
   computeShortestPaths,
+  computeReachable,
 }
