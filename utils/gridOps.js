@@ -19,10 +19,16 @@ function draw(coords, colors) {
 
 // Convert a {x: {y: data}} grid into a [{ x, y, data }] list
 function toList(grid) {
-  return ArrayOps.flatten(Object.keys(grid).map(x => {
-    const line = grid[x]
-    return Object.keys(line).map(y => ({ x:+x, y:+y, data: line[y] }))
-  }))
+  return ArrayOps.flatten(Object.keys(grid).map(x =>
+    Object.keys(grid[x]).map(([y, data]) => ({ x:+x, y:+y, data }))
+  ))
+}
+
+// Convert a {y: {x: data}} grid into a [{ x, y, data }] list
+function toListY(grid) {
+  return ArrayOps.flatten(Object.keys(grid).map(y =>
+    Object.entries(grid[y]).map(([x, data]) => ({ x:+x, y:+y, data }))
+  ))
 }
 
 // Convert a [{ x, y, data }] list into a {x: {y: data}} grid
@@ -120,12 +126,22 @@ function toYXMap(coords) {
   return res
 }
 
+function readYX(src) {
+  let grid = {}
+  src.split('\n').forEach( (line, y) => {
+    grid[y] = {}; line.split('').forEach((c, x) => grid[y][x] = c)
+  })
+  return grid
+}
+
 module.exports = {
   draw,
   toList,
+  toListY,
   toXYMap,
   toYXMap,
   computeShortestPath,
   computeShortestPaths,
   computeReachable,
+  readYX,
 }

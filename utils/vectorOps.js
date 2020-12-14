@@ -45,9 +45,21 @@ function print(v) {
   return v.x0 + ',' + v.y0 + ';' + v.dx + ',' + v.dy + ';' + v.size
 }
 
+// https://stackoverflow.com/questions/28112315/how-do-i-rotate-a-vector
+function rotateVector([dx, dy], ang){
+  const radAng = -ang * (Math.PI/180)
+  const cos = Math.cos(radAng)
+  const sin = Math.sin(radAng)
+  return [
+    Math.round(10000*(dx * cos - dy * sin))/10000,
+    Math.round(10000*(dx * sin + dy * cos))/10000,
+  ]
+}
+
 module.exports = {
   checkIntersect,
   split,
   getIntersectionPoint,
   print,
+  rotateVector,
 }
