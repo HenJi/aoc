@@ -1,19 +1,19 @@
 module.exports = ``
 
-const input = require('./1N.input.js')
+const input = require('./2N.input.js')
 const ArrayOps = require('../utils/arrayOps')
 
 function dayA(src, exp) {
   let res = undefined
 
-  console.log(`Expected ${exp} - Got ${res}`)
+  console.log(`Expected ${exp} - Got ${res} - ${exp == res}`)
 }
 
 function dayB(src, exp) {
 
   let res = undefined
 
-  console.log(`Expected ${exp} - Got ${res}`)
+  console.log(`Expected ${exp} - Got ${res} - ${exp == res}`)
 }
 
 const test = ``

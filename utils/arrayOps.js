@@ -27,7 +27,15 @@ function chunk(lst, size) {
 function sum(lst) {
   return lst.reduce((acc, n) => acc+n, 0)
 }
+function product(lst) {
+  return lst.reduce((acc, n) => acc*n, 1)
+}
+
+function reverse(lst) {
+  return lst.slice().reverse()
+}
 
 module.exports = {
-  init, uniques, flatten, chunk, sum,
+  init, uniques, flatten, chunk, sum, product,
+  reverse
 }

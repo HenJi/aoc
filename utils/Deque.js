@@ -65,6 +65,17 @@ Deque.prototype.print = function() {
   console.dir(res)
 }
 
+Deque.prototype.toList = function() {
+  const ref = this.head
+  const res = [this.head.value]
+  this.rotate(1)
+  while (this.head !== ref) {
+    res.push(this.head.value)
+    this.rotate(1)
+  }
+  return res
+}
+
 Deque.prototype.getSize = function () {
   return this.count
 }

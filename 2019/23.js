@@ -1,5 +1,4 @@
 const input = require('./23.input.js')
-//const GridOps = require('../utils/gridOps')
 const ArrayOps = require('../utils/arrayOps')
 
 const intCode = require('./intCode.23')
